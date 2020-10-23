@@ -1,46 +1,43 @@
-//creating objects
-var fixedRect, movingRect;
-var object1, object2,object3,object4;
+var wall, thickness;
+var bullet, speed, weight;
 
 function setup() {
-  createCanvas(1200,800);
-  //creating objects and its functions
-  fixedRect = createSprite(600, 400, 50, 80);
-  fixedRect.shapeColor = "green";
-  fixedRect.debug = true;
-  movingRect = createSprite(400,200,80,30);
-  movingRect.shapeColor = "green";
-  movingRect.debug = true;
-  object1 = createSprite(100, 200, 50, 80);
-  object2 = createSprite(200, 400, 50, 80);
-  object3 = createSprite(300, 200, 50, 80);
-  object4 = createSprite(400, 400, 50, 80);
-  object1.velocityX = 3;
-  
+  createCanvas(1600,400);
+
+  wall = createSprite(1200, 200, thickness, height/2);
+  wall.shapeColor= color(80,80,80);
+
+  thickness= random(22,83);
+
+  weight= random(30,52);
+
+  speed= random(223,321);
+
+  bullet= createSprite(50,200,50,5);
+  bullet.shapeColor= "white";
+  bullet.velocityX= speed;
 }
-    
-function draw()
- {
-  background(0,0,0); 
-  //giving velocity 
-  movingRect.x = World.mouseX;
-  movingRect.y = World.mouseY;
 
-  if(isTouching(object1,object3))
-  {
-    object3.shapeColor = "blue";
-    object1.shapeColor = "blue";
-
-  }
-  else
-  {
-    object3.shapeColor = "green";
-    object1.shapeColor = "green";
-    
-  }
-//making objects bounce
-  bounceOff(object1,object3);
+function draw() {
+  background(0); 
   
+  if (hasCollided(bullet,wall)) {
+    bullet.velocityX= 0;
+    var damage= 0.5*weight*speed*speed/(thickness*thickness*thickness);  
+  }
+
+  if (damage>10) {
+    wall.shapeColor= color(255,0,0);
+  }
+
+  if (damage<10) {
+    wall.shapeColor= color(0,255,0);  
+  }
+  
+
   drawSprites();
 }
+
+
+
 
